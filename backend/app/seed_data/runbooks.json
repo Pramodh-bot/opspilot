@@ -1,0 +1,72 @@
+[
+  {
+    "title": "Database connection pool exhaustion",
+    "category": "database",
+    "tags": "postgres pgbouncer connection pool too many connections timeouts database",
+    "content": "Symptoms: 'too many connections' errors, requests waiting on the connection pool, application timeouts while database CPU is low. Check pg_stat_activity for idle-in-transaction sessions and long-running queries. Verify pool size versus max_connections. Mitigation: terminate idle-in-transaction sessions, restart the application pool or pgbouncer, then raise the pool limit or fix connection leaks in the offending release.",
+    "recommended_actions": ["collect_diagnostics", "restart_service"]
+  },
+  {
+    "title": "PostgreSQL replication lag and primary failure",
+    "category": "database",
+    "tags": "postgres replica replication lag wal failover primary standby database deadlock slow queries",
+    "content": "Symptoms: replica lag growing, stale reads, primary unreachable, long-running transactions or deadlocks blocking vacuum. Check pg_stat_replication and WAL volume. If the primary is down or unrecoverable, promote the standby after confirming the old primary is fenced. Slow query storms: find them in pg_stat_statements, add missing indexes, cancel runaway queries.",
+    "recommended_actions": ["collect_diagnostics", "failover_database"]
+  },
+  {
+    "title": "DNS failures and packet loss",
+    "category": "network",
+    "tags": "dns network packet loss resolution latency vpn bgp route unreachable",
+    "content": "Symptoms: intermittent name resolution failures, connection resets, packet loss between zones or regions, VPN or peering links flapping. Run dig and mtr from an affected host, compare resolvers, check CoreDNS pods and upstream resolver health. Mitigation: restart CoreDNS, fail over to a secondary resolver, escalate to the network provider for BGP or peering issues.",
+    "recommended_actions": ["collect_diagnostics", "restart_service"]
+  },
+  {
+    "title": "Load balancer 5xx and unhealthy targets",
+    "category": "network",
+    "tags": "load balancer 5xx unhealthy targets health check ingress tls certificate gateway nat",
+    "content": "Symptoms: elevated 502/503/504 from the load balancer, targets failing health checks, TLS handshake errors, ingress controller restarts. Verify target group health, security groups and certificates. Mitigation: restart the ingress controller, drain unhealthy targets, renew expired certificates.",
+    "recommended_actions": ["collect_diagnostics", "restart_service"]
+  },
+  {
+    "title": "Memory leak and OOMKilled containers",
+    "category": "memory",
+    "tags": "memory leak oom oomkilled heap rss garbage collection swap container restart",
+    "content": "Symptoms: steadily growing resident memory, containers OOMKilled and restarting, long GC pauses, swap usage. Capture a heap profile before restarting if possible. Mitigation: rolling restart to reclaim memory, temporarily raise memory limits or scale out, then open a bug against the leaking release.",
+    "recommended_actions": ["collect_diagnostics", "restart_service", "scale_out"]
+  },
+  {
+    "title": "High CPU saturation and throttling",
+    "category": "cpu",
+    "tags": "cpu high load average throttling saturation busy loop thread pool cores steal",
+    "content": "Symptoms: CPU pinned near 100 percent, rising load average, CFS throttling, request latency climbing with thread pools exhausted. Identify hot processes with top and flame graphs, check for runaway loops or expensive batch jobs. Mitigation: scale out replicas, raise CPU limits, disable the offending batch job.",
+    "recommended_actions": ["collect_diagnostics", "scale_out"]
+  },
+  {
+    "title": "Disk full and inode exhaustion",
+    "category": "disk",
+    "tags": "disk full no space left inode filesystem volume log rotation storage partition iops",
+    "content": "Symptoms: 'No space left on device', write failures, services crashing on log writes, inode exhaustion with free blocks. Use df -h and df -i, find large directories with du, check log rotation. Mitigation: rotate and compress logs, purge temp files, expand the volume, fix runaway logging.",
+    "recommended_actions": ["collect_diagnostics", "clear_disk_space"]
+  },
+  {
+    "title": "Bad deployment rollback procedure",
+    "category": "deployment",
+    "tags": "deployment release rollout rollback canary regression helm config change feature flag new version migration",
+    "content": "Symptoms: error rate or latency jumped right after a deploy, canary failing, regression tied to a new version or config change, failed database migration. Compare timing against the deploy log. Mitigation: halt the rollout, roll back to the previous release, revert the feature flag or config, then investigate the change in staging.",
+    "recommended_actions": ["collect_diagnostics", "rollback_deployment"]
+  },
+  {
+    "title": "Suspected credential compromise or brute force attack",
+    "category": "security",
+    "tags": "security breach brute force credential leaked compromised unauthorized suspicious ddos malware phishing intrusion",
+    "content": "Symptoms: bursts of failed logins, unauthorized access, leaked tokens or keys, suspicious outbound traffic, malware alerts, DDoS traffic. Preserve evidence first. Mitigation: rotate affected credentials, invalidate sessions, block offending sources at the edge, notify the security team and follow the incident disclosure policy.",
+    "recommended_actions": ["collect_diagnostics", "rotate_credentials", "block_traffic_source"]
+  },
+  {
+    "title": "Third-party API outage or degraded dependency",
+    "category": "dependency",
+    "tags": "third-party upstream vendor external api payment provider stripe rate limit 429 downstream dependency status page",
+    "content": "Symptoms: errors and timeouts concentrated on calls to an external provider, vendor status page reporting an incident, 429 rate limiting, partner API failures. Confirm on the vendor status page. Mitigation: enable degraded mode or cached responses, tighten retries with backoff, queue work for later, communicate to customers.",
+    "recommended_actions": ["collect_diagnostics", "enable_degraded_mode"]
+  }
+]

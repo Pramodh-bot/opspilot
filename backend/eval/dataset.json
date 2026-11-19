@@ -1,0 +1,338 @@
+[
+ {
+  "title": "Postgres connection pool exhausted",
+  "description": "App logs show 'too many connections' and requests timing out waiting for a pgbouncer slot.",
+  "service": "payments-api",
+  "category": "database",
+  "severity": "sev2"
+ },
+ {
+  "title": "Slow queries on reporting database",
+  "description": "Several SQL queries on the reporting DB take over 30 seconds and the nightly job is blocked.",
+  "service": "reporting",
+  "category": "database",
+  "severity": "sev3"
+ },
+ {
+  "title": "Deadlocks in inventory service",
+  "description": "Transactions are failing with deadlock detected errors on the inventory table every few minutes.",
+  "service": "inventory",
+  "category": "database",
+  "severity": "sev3"
+ },
+ {
+  "title": "Primary database node unreachable",
+  "description": "The primary postgres node stopped responding and writes are failing while replicas stay healthy. Customers cannot place orders.",
+  "service": "orders-db",
+  "category": "database",
+  "severity": "sev1"
+ },
+ {
+  "title": "Replica lag over 20 minutes",
+  "description": "Replication lag on the read replica keeps growing and dashboards show stale data.",
+  "service": "analytics-db",
+  "category": "database",
+  "severity": "sev3"
+ },
+ {
+  "title": "MySQL lock wait timeout exceeded",
+  "description": "Checkout writes fail intermittently with lock wait timeout exceeded on the carts table.",
+  "service": "cart-service",
+  "category": "database",
+  "severity": "sev2"
+ },
+ {
+  "title": "DNS resolution failures in us-east",
+  "description": "Pods intermittently fail to resolve internal hostnames and CoreDNS shows SERVFAIL.",
+  "service": "platform",
+  "category": "network",
+  "severity": "sev2"
+ },
+ {
+  "title": "Packet loss between regions",
+  "description": "Cross-region packet loss of 8% observed on the VPN link between eu-west and us-east.",
+  "service": "mesh-gateway",
+  "category": "network",
+  "severity": "sev3"
+ },
+ {
+  "title": "Load balancer returning 503",
+  "description": "The public load balancer reports no healthy targets in the target group and returns 503 to all requests.",
+  "service": "edge-lb",
+  "category": "network",
+  "severity": "sev1"
+ },
+ {
+  "title": "VPN tunnel flapping",
+  "description": "The site-to-site VPN tunnel to the office keeps dropping every few minutes.",
+  "service": "corp-vpn",
+  "category": "network",
+  "severity": "sev3"
+ },
+ {
+  "title": "BGP session down with transit provider",
+  "description": "The BGP session with our ISP dropped and traffic is rerouting through the secondary link with higher latency.",
+  "service": "netops",
+  "category": "network",
+  "severity": "sev2"
+ },
+ {
+  "title": "NAT gateway connection resets",
+  "description": "Outbound connections through the NAT gateway are being reset and services cannot reach the internet.",
+  "service": "egress",
+  "category": "network",
+  "severity": "sev2"
+ },
+ {
+  "title": "Payments pods OOMKilled",
+  "description": "Containers for payments-worker are being OOMKilled every 20 minutes.",
+  "service": "payments-worker",
+  "category": "memory",
+  "severity": "sev2"
+ },
+ {
+  "title": "Memory leak in search service",
+  "description": "Resident memory grows by 200MB per hour since last week and heap dumps show the cache growing without bound.",
+  "service": "search",
+  "category": "memory",
+  "severity": "sev3"
+ },
+ {
+  "title": "Java heap exhaustion and long GC pauses",
+  "description": "GC pauses exceeding 5 seconds, heap at 98 percent and requests are stalling.",
+  "service": "catalog",
+  "category": "memory",
+  "severity": "sev2"
+ },
+ {
+  "title": "Node swapping heavily",
+  "description": "The host is using swap and latency has doubled because free memory is near zero.",
+  "service": "worker-pool",
+  "category": "memory",
+  "severity": "sev3"
+ },
+ {
+  "title": "Out of memory on the ingest nodes",
+  "description": "The kernel OOM killer terminated the ingest process twice this morning.",
+  "service": "ingest",
+  "category": "memory",
+  "severity": "sev2"
+ },
+ {
+  "title": "Redis memory usage at 95%",
+  "description": "Redis used memory is at 95% of maxmemory and evictions are increasing.",
+  "service": "session-cache",
+  "category": "memory",
+  "severity": "sev3"
+ },
+ {
+  "title": "CPU saturated on API nodes",
+  "description": "CPU utilization is pinned at 100% across the api fleet and latency is climbing.",
+  "service": "api",
+  "category": "cpu",
+  "severity": "sev2"
+ },
+ {
+  "title": "High load average on batch hosts",
+  "description": "Load average is above 40 on the batch hosts and jobs are queueing.",
+  "service": "batch",
+  "category": "cpu",
+  "severity": "sev3"
+ },
+ {
+  "title": "Container CPU throttling",
+  "description": "Pods are heavily throttled by CFS quotas and p99 latency doubled.",
+  "service": "gateway",
+  "category": "cpu",
+  "severity": "sev3"
+ },
+ {
+  "title": "Runaway process consuming cores",
+  "description": "A busy loop in the image resizer is spinning all cores on the node.",
+  "service": "media",
+  "category": "cpu",
+  "severity": "sev3"
+ },
+ {
+  "title": "Thread pool exhausted under load",
+  "description": "Worker threads are all busy and the CPU is maxed out during the traffic peak.",
+  "service": "notifications",
+  "category": "cpu",
+  "severity": "sev2"
+ },
+ {
+  "title": "CPU steal time on VMs",
+  "description": "Noisy neighbors: steal time is 30% on several instances and CPU-bound jobs are slow.",
+  "service": "compute",
+  "category": "cpu",
+  "severity": "sev3"
+ },
+ {
+  "title": "Disk full on log volume",
+  "description": "No space left on device; log writes are failing on the ingest hosts.",
+  "service": "log-ingest",
+  "category": "disk",
+  "severity": "sev2"
+ },
+ {
+  "title": "Inode exhaustion on build agents",
+  "description": "Builds fail with no inodes available even though df shows free space.",
+  "service": "ci-agents",
+  "category": "disk",
+  "severity": "sev3"
+ },
+ {
+  "title": "Database volume at 95%",
+  "description": "The EBS volume holding the data directory is at 95% and growing 1% per hour.",
+  "service": "orders-db",
+  "category": "disk",
+  "severity": "sev3"
+ },
+ {
+  "title": "Log rotation not running",
+  "description": "Old logs are filling the /var/log partition because log rotation has not run since Monday.",
+  "service": "web-frontend",
+  "category": "disk",
+  "severity": "sev4"
+ },
+ {
+  "title": "Slow disk IOPS throttling",
+  "description": "Disk IOPS are throttled at the volume limit and write latency is high.",
+  "service": "metrics-store",
+  "category": "disk",
+  "severity": "sev3"
+ },
+ {
+  "title": "Filesystem read-only after errors",
+  "description": "The root filesystem on node-17 was remounted read-only after I/O errors.",
+  "service": "node-17",
+  "category": "disk",
+  "severity": "sev2"
+ },
+ {
+  "title": "Errors spiked after deploy",
+  "description": "The error rate jumped right after the 2.14 release finished rolling out.",
+  "service": "checkout",
+  "category": "deployment",
+  "severity": "sev2"
+ },
+ {
+  "title": "Canary failing health checks",
+  "description": "The canary for the new version fails readiness probes and the rollout is paused.",
+  "service": "frontend",
+  "category": "deployment",
+  "severity": "sev3"
+ },
+ {
+  "title": "Failed database migration blocking release",
+  "description": "The migration step in the pipeline failed halfway and the release is stuck.",
+  "service": "billing",
+  "category": "deployment",
+  "severity": "sev3"
+ },
+ {
+  "title": "Bad config change caused outage",
+  "description": "A config change pushed at 14:02 broke sign-in for all users.",
+  "service": "auth",
+  "category": "deployment",
+  "severity": "sev1"
+ },
+ {
+  "title": "Feature flag rollout causing regression",
+  "description": "After enabling the new recommendation flag the page latency regressed 3x.",
+  "service": "recs",
+  "category": "deployment",
+  "severity": "sev3"
+ },
+ {
+  "title": "Helm upgrade left pods crash looping",
+  "description": "The helm upgrade to chart 1.8 left several pods in CrashLoopBackOff.",
+  "service": "platform",
+  "category": "deployment",
+  "severity": "sev2"
+ },
+ {
+  "title": "Brute force login attempts",
+  "description": "Thousands of failed login attempts from a single IP range against the admin portal.",
+  "service": "admin-portal",
+  "category": "security",
+  "severity": "sev3"
+ },
+ {
+  "title": "Leaked API key in public repo",
+  "description": "A production API key was found leaked in a public GitHub repository.",
+  "service": "api-gateway",
+  "category": "security",
+  "severity": "sev2"
+ },
+ {
+  "title": "DDoS traffic against marketing site",
+  "description": "We are seeing a volumetric DDoS; WAF rules are blocking but bandwidth is saturated.",
+  "service": "marketing-site",
+  "category": "security",
+  "severity": "sev2"
+ },
+ {
+  "title": "Suspicious outbound traffic from build server",
+  "description": "The build server is sending large volumes of data to an unknown host, possible exfiltration.",
+  "service": "ci-server",
+  "category": "security",
+  "severity": "sev1"
+ },
+ {
+  "title": "Malware detected on endpoint fleet",
+  "description": "EDR flagged ransomware behavior on three laptops.",
+  "service": "it-endpoints",
+  "category": "security",
+  "severity": "sev1"
+ },
+ {
+  "title": "Unauthorized access to S3 bucket",
+  "description": "Audit logs show unauthorized reads on a customer-data bucket from an unknown principal.",
+  "service": "data-lake",
+  "category": "security",
+  "severity": "sev1"
+ },
+ {
+  "title": "Payment provider API timing out",
+  "description": "Calls to the external payment provider are timing out and their status page confirms an incident.",
+  "service": "payments",
+  "category": "dependency",
+  "severity": "sev2"
+ },
+ {
+  "title": "Third-party SMS gateway failing",
+  "description": "Our SMS vendor is returning 500s so one-time codes are not delivered.",
+  "service": "notifications",
+  "category": "dependency",
+  "severity": "sev2"
+ },
+ {
+  "title": "Rate limited by partner API",
+  "description": "We are receiving 429 responses from the partner inventory API and sync jobs are failing.",
+  "service": "sync-worker",
+  "category": "dependency",
+  "severity": "sev3"
+ },
+ {
+  "title": "Upstream identity provider outage",
+  "description": "The upstream identity provider is down and SSO sign-in fails for all users.",
+  "service": "sso",
+  "category": "dependency",
+  "severity": "sev1"
+ },
+ {
+  "title": "CDN provider degraded",
+  "description": "Our CDN vendor reports degraded performance in Europe and static assets load slowly.",
+  "service": "static-assets",
+  "category": "dependency",
+  "severity": "sev3"
+ },
+ {
+  "title": "Email delivery delayed by SMTP relay",
+  "description": "The SaaS email provider is queueing messages and delivery is delayed by an hour.",
+  "service": "mailer",
+  "category": "dependency",
+  "severity": "sev3"
+ }
+]

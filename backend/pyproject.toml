@@ -1,0 +1,22 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::langchain_core._api.deprecation.LangChainPendingDeprecationWarning"]
+addopts = "-q"
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["app/seed.py:main"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+exclude_lines = ["pragma: no cover", "if __name__ == .__main__.:"]
+
+[tool.ruff]
+line-length = 130
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+# B008: FastAPI idiom (Depends in defaults); UP017/E501: stylistic
+ignore = ["B008", "UP017", "E501"]

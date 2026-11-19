@@ -1,0 +1,114 @@
+[
+ {
+  "title": "Writes stalling on the main store",
+  "description": "Everything touching the ledger store hangs; long-running transactions are holding locks and autovacuum cannot keep up.",
+  "service": "ledger",
+  "category": "database",
+  "severity": "sev2"
+ },
+ {
+  "title": "Read replica serving old data",
+  "description": "Users see outdated profile info because the standby is minutes behind the primary.",
+  "service": "profiles",
+  "category": "database",
+  "severity": "sev3"
+ },
+ {
+  "title": "Clients cannot reach us from one ISP",
+  "description": "Customers on a single carrier get connection timeouts; traceroutes die at the peering point.",
+  "service": "api-edge",
+  "category": "network",
+  "severity": "sev2"
+ },
+ {
+  "title": "Name lookups slow inside the cluster",
+  "description": "Internal service names take seconds to resolve and sometimes fail entirely.",
+  "service": "svc-mesh",
+  "category": "network",
+  "severity": "sev3"
+ },
+ {
+  "title": "Workers keep getting killed and restarting",
+  "description": "Kernel logs show the process was killed for exceeding its memory limit; usage climbs for hours before each kill.",
+  "service": "recommender",
+  "category": "memory",
+  "severity": "sev2"
+ },
+ {
+  "title": "Runtime pauses growing longer",
+  "description": "Stop-the-world garbage collection now takes seconds and the heap never shrinks.",
+  "service": "report-gen",
+  "category": "memory",
+  "severity": "sev3"
+ },
+ {
+  "title": "Nodes running hot",
+  "description": "Processors are at their ceiling and the run queue is long; requests are queueing behind compute-heavy jobs.",
+  "service": "indexer",
+  "category": "cpu",
+  "severity": "sev3"
+ },
+ {
+  "title": "Latency tied to throttled containers",
+  "description": "Containers hit their CPU quota constantly and get throttled, stretching response times.",
+  "service": "scheduler",
+  "category": "cpu",
+  "severity": "sev3"
+ },
+ {
+  "title": "Writes failing on the storage node",
+  "description": "Applications cannot create files; df reports 100% usage on the data mount.",
+  "service": "uploads",
+  "category": "disk",
+  "severity": "sev2"
+ },
+ {
+  "title": "Volume nearly out of room",
+  "description": "The data volume is at 97% and filling quickly because compaction is not reclaiming blocks.",
+  "service": "archive",
+  "category": "disk",
+  "severity": "sev3"
+ },
+ {
+  "title": "Broke right after we shipped",
+  "description": "Everything was fine until version 5.2 went out an hour ago; errors started during the rollout.",
+  "service": "orders-web",
+  "category": "deployment",
+  "severity": "sev2"
+ },
+ {
+  "title": "Reverting last night's change fixes it",
+  "description": "The behavior started with last night's config push; reverting it on staging resolves the problem.",
+  "service": "search-api",
+  "category": "deployment",
+  "severity": "sev3"
+ },
+ {
+  "title": "Odd spike of failed sign-ins from many IPs",
+  "description": "A credential stuffing pattern against the login endpoint with thousands of attempts per minute.",
+  "service": "login",
+  "category": "security",
+  "severity": "sev2"
+ },
+ {
+  "title": "Customer files exposed publicly",
+  "description": "A misconfigured bucket policy let anyone read customer documents; access logs show external downloads.",
+  "service": "storage",
+  "category": "security",
+  "severity": "sev1"
+ },
+ {
+  "title": "Card processor returning errors",
+  "description": "Authorization calls to the card processor are failing; their status page lists an ongoing incident.",
+  "service": "checkout",
+  "category": "dependency",
+  "severity": "sev2"
+ },
+ {
+  "title": "Maps vendor throttling us",
+  "description": "The geocoding provider is rate limiting our requests and lookups fall back to stale data.",
+  "service": "geo",
+  "category": "dependency",
+  "severity": "sev3"
+ }
+]

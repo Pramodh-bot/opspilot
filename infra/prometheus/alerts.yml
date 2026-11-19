@@ -1,0 +1,53 @@
+groups:
+  - name: opspilot
+    rules:
+      - alert: OpsPilotBackendDown
+        expr: up{job="opspilot-backend"} == 0
+        for: 1m
+        labels: { severity: critical, service: opspilot-backend }
+        annotations:
+          summary: "OpsPilot backend is down"
+          description: "Prometheus cannot scrape the OpsPilot API for over a minute."
+
+      - alert: OpsPilotHighErrorRate
+        expr: |
+          sum(rate(opspilot_http_requests_total{status=~"5.."}[5m]))
+            / clamp_min(sum(rate(opspilot_http_requests_total[5m])), 1e-9) > 0.05
+        for: 5m
+        labels: { severity: high, service: opspilot-backend }
+        annotations:
+          summary: "More than 5% of API requests are failing"
+          description: "5xx ratio has been above 5% for 5 minutes."
+
+      - alert: OpsPilotHighLatencyP95
+        expr: |
+          histogram_quantile(0.95, sum by (le) (rate(opspilot_http_request_duration_seconds_bucket[5m]))) > 1
+        for: 10m
+        labels: { severity: warning, service: opspilot-backend }
+        annotations:
+          summary: "API p95 latency above 1s"
+          description: "p95 request latency has exceeded 1 second for 10 minutes."
+
+      - alert: OpsPilotLLMCircuitOpen
+        expr: opspilot_llm_circuit_state == 2
+        for: 2m
+        labels: { severity: warning, service: opspilot-backend }
+        annotations:
+          summary: "LLM circuit breaker is open"
+          description: "Triage is running on the offline rules engine because the LLM provider keeps failing."
+
+      - alert: OpsPilotApprovalBacklog
+        expr: opspilot_incidents{status="awaiting_approval"} > 5
+        for: 30m
+        labels: { severity: warning, service: opspilot-backend }
+        annotations:
+          summary: "More than 5 incidents are waiting for approval"
+          description: "Proposed remediation actions have been waiting for a human decision for 30 minutes."
+
+      - alert: OpsPilotLoginFailureSpike
+        expr: increase(opspilot_login_failures_total[10m]) > 50
+        for: 0m
+        labels: { severity: high, service: opspilot-backend }
+        annotations:
+          summary: "Spike in failed logins"
+          description: "More than 50 failed logins in 10 minutes. Possible credential stuffing."
